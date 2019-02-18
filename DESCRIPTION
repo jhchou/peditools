@@ -1,0 +1,16 @@
+Package: peditools
+Title: Pediatric Calculation Tools for LMS Anthropometric Charts
+Version: 0.3.0.9000
+Authors@R: person("Joseph", "Chou", email = "joe.nicu@gmail.com", role = c("aut", "cre"))
+Description: A collection of tools for newborn and pediatric anthropometric calculations for
+    Lambda, Mu, Sigma (LMS) based charts, including: ###Fenton 2013###, Fenton 2003,
+    Olsen 2010, Olsen BMI, CDC infant, CDC pediatric, CDC BMI, CDC skin, WHO infant,
+    WHO skin, and Zemel Down Syndrome.
+Depends:
+    R (>= 3.5.1)
+License: MIT
+LazyData: true
+Imports:
+    stats
+RoxygenNote: 6.0.1
+Suggests: testthat

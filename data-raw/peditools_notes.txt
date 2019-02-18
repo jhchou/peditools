@@ -1,0 +1,57 @@
+PediTools package reminders
+
+sysdata.rda contains data frame:
+    - lmsData
+
+
+# chartsLong.csv
+# columns: Chart, Age, AgeUnits, Gender, Measure, MeasureUnits, L, M, S
+lmsData <- read.csv(file = 'data-raw/chartsLong.csv', stringsAsFactors = TRUE)
+
+
+
+# Warning message:
+# 'devtools::use_data' is deprecated.
+# Use 'usethis::use_data()' instead.
+
+usethis::use_data(lmsData, internal = TRUE, overwrite = TRUE)
+    # save the sysdata.rda IN THE CORRECT FORMAT for packages
+    # but save it into the R directory
+
+
+    
+library(devtools)
+setwd("~/Desktop/R/peditools")
+setwd("..") # to build package, need to be in directory where package DIRECTORY is
+install("peditools")
+
+# where does the tar.gz version of the package end up?
+#
+# - create it with build('peditools')
+
+Inside of Terminal (iTerm is also okay)
+
+To build a .tar.gz file (a “tarball”) for sharing the package
+    R CMD build myPackageName
+
+To install the package from its folder
+    R CMD install myPackageName
+
+To check the package, perhaps before submitting to CRAN
+    R CMD check myPackageName
+
+
+
+library(peditools)
+
+
+
+PediTools package install on MacOS, from terminal
+
+R CMD INSTALL /Users/jeanjoe/Dropbox/peditools_0.3.0.9000.tar.gz 
+
+
+
+PediTools package install on Windows
+    Start --> CMD
+    "C:\R\R-3.5.2\bin\R.exe" CMD INSTALL H:peditools_0.1.2.tar.gz
