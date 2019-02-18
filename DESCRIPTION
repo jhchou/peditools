@@ -7,10 +7,11 @@ Description: A collection of tools for newborn and pediatric anthropometric calc
     Olsen 2010, Olsen BMI, CDC infant, CDC pediatric, CDC BMI, CDC skin, WHO infant,
     WHO skin, and Zemel Down Syndrome.
 Depends:
-    R (>= 3.5.1)
-License: MIT
+    R (>= 3.5.0)
+License: MIT + file LICENSE
+Encoding: UTF-8
 LazyData: true
 Imports:
     stats
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 Suggests: testthat

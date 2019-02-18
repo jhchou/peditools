@@ -22,7 +22,19 @@ Function to take a vectors of measurements, age, and gender, and unique chart an
 }
 \examples{
 # 3, 10, 50, 90, and 97\%ile for 30 0/7 week M on Fenton2013
-xToZ(c(774.1259148, 986.5784793, 1388.303356, 1746.218584, 1903.278428), rep(30, 5), rep('M', 5), chart = 'Fenton2013', measure = 'Wt')
-# xToZ(c(774.1259148, 986.5784793, 1388.303356, 1746.218584, 1903.278428), rep(30, 5), rep('M', 5), chart = 'Fenton2013', measure = 'Wt') \%>\% pnorm \%>\% round(4)
+xToZ(
+    c(774.1259148, 986.5784793, 1388.303356, 1746.218584, 1903.278428),
+    rep(30, 5),
+    rep('M', 5),
+    chart = 'Fenton2013',
+    measure = 'Wt'
+  )
+round( pnorm( xToZ(
+    c(774.1259148, 986.5784793, 1388.303356, 1746.218584, 1903.278428),
+    rep(30, 5),
+    rep('M', 5),
+    chart = 'Fenton2013',
+    measure = 'Wt'
+  ) ), 4)
 }
 \keyword{LMS}

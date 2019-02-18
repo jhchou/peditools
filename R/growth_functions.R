@@ -170,8 +170,20 @@ lmsToZ <- function( x, lms ) {
 #' @export
 #' @examples
 #' # 3, 10, 50, 90, and 97%ile for 30 0/7 week M on Fenton2013
-#' xToZ(c(774.1259148, 986.5784793, 1388.303356, 1746.218584, 1903.278428), rep(30, 5), rep('M', 5), chart = 'Fenton2013', measure = 'Wt')
-#' # xToZ(c(774.1259148, 986.5784793, 1388.303356, 1746.218584, 1903.278428), rep(30, 5), rep('M', 5), chart = 'Fenton2013', measure = 'Wt') %>% pnorm %>% round(4)
+#' xToZ(
+#'     c(774.1259148, 986.5784793, 1388.303356, 1746.218584, 1903.278428),
+#'     rep(30, 5),
+#'     rep('M', 5),
+#'     chart = 'Fenton2013',
+#'     measure = 'Wt'
+#'   )
+#' round( pnorm( xToZ(
+#'     c(774.1259148, 986.5784793, 1388.303356, 1746.218584, 1903.278428),
+#'     rep(30, 5),
+#'     rep('M', 5),
+#'     chart = 'Fenton2013',
+#'     measure = 'Wt'
+#'   ) ), 4)
 xToZ <- function(x, age, gender, chart = 'Fenton2013', measure = 'Wt') {
     # function to take a measurement x, and specify age, gender, chart, and measure, to return a Z score
     z <- lmsToZ( x, get_lms( age, gender, chart, measure ) )
