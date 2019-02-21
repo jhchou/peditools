@@ -21,4 +21,3 @@ Function to interpolate LMS parameters, given age, gender, chart, and measure
 \examples{
 get_lms(c(38, 38), c('M', 'F'), chart = 'Fenton2013', measure = 'Wt')
 }
-\keyword{LMS}

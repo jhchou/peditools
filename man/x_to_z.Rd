@@ -20,6 +20,24 @@ x_to_z(x, age, gender, chart = "Fenton2013", measure = "Wt")
 \description{
 Function to take vectors of measurements, age, and gender, and unique chart and measure, to return Z score
 }
+\details{
+The following charts are available, with their corresponding measures.
+
+\tabular{lll}{
+  \strong{Chart} \tab \strong{Age} \tab \strong{Measures}\cr
+  CDCbmi \tab months \tab BMI(kg/m2)\cr
+  CDCinfant \tab months \tab HC(cm), Len(cm), Wt(kg)\cr
+  CDCpedi \tab months \tab Len(cm), Wt(kg)\cr
+  CDCskin \tab years \tab subscapular(mm), triceps(mm)\cr
+  DownInfant \tab months \tab HC(cm), Len(cm), Wt(kg)\cr
+  DownPedi \tab years \tab BMI(kg/m2), HC(cm), Height(cm), Wt(kg)\cr
+  Fenton2003 \tab weeks \tab HC(cm), Len(cm), Wt(kg)\cr
+  Olsen2010 \tab weeks \tab HC(cm), Len(cm), Wt(g)\cr
+  OlsenBMI \tab weeks \tab BMI(g/cm2)\cr
+  WHOinfant \tab months \tab HC(cm), Len(cm), Wt(kg)\cr
+  WHOskin \tab months \tab arm circ(cm), subscapular(mm), triceps(mm)\cr
+}
+}
 \examples{
 # 3, 10, 50, 90, and 97\%ile for 30 0/7 week M on Fenton2013
 x_to_z(
@@ -37,4 +55,3 @@ round( pnorm( x_to_z(
     measure = 'Wt'
   ) ), 4)
 }
-\keyword{LMS}

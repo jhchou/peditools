@@ -17,4 +17,3 @@ function to convert X + LMS parameters to a Z-score
 \examples{
 # x_lms_to_z()
 }
-\keyword{LMS}

@@ -21,4 +21,3 @@ Vectorized function to convert Z + LMS parameters to a measurement. If Z, L, M, 
 \examples{
 # z_lms_to_x()
 }
-\keyword{LMS}

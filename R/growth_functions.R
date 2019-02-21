@@ -4,7 +4,17 @@
 # lmsData is R object of LMS parameters for a collection of charts, in R/sysdata.rda for the package
 #
 # To get a summary of available charts and their measures:
-# lmsData %>% select(Chart, Measure) %>% unique() %>% group_by(Chart) %>% summarise(Measures = paste(sort(Measure), collapse = ', '))
+# lmsData %>% dplyr::select(Chart, Measure) %>% unique() %>% dplyr::group_by(Chart) %>% dplyr::summarise(Measures = paste(sort(Measure), collapse = ', '))
+#
+# Include age and measure units:
+# lmsData %>%
+#   filter(Chart != 'Fenton2013') %>%
+#   mutate(Measure = paste0(Measure, '(', MeasureUnits,')')) %>%
+#   select(Chart, AgeUnits, Measure) %>%
+#   unique() %>%
+#   group_by(Chart, AgeUnits) %>%
+#   summarise(Measures = paste(sort(Measure), collapse = ', ')) %>%
+#   arrange(Chart)
 #
 # To do:
 # [ ] z_lms_to_x -- is this ever used, or just available, to perhaps make growth charts?
@@ -22,7 +32,6 @@
 #' @param L lambda parameter(s)
 #' @param M mu parameter(s)
 #' @param S sigma parameter(s)
-#' @keywords LMS
 #' @export
 #' @examples
 #' # z_lms_to_x()
@@ -66,7 +75,6 @@ z_lms_to_x <- function( Z, L, M, S ) { # vectorized function to convert Z + LMS 
 #' @param gender Vector of gender, either 'M' or 'F'
 #' @param chart Which chart to obtain LMS parameters for. Defaults to 'Fenton 2013' premature growth chart
 #' @param measure Which measure for the chart. Defaults to 'Wt'
-#' @keywords LMS
 #' @export
 #' @examples
 #' get_lms(c(38, 38), c('M', 'F'), chart = 'Fenton2013', measure = 'Wt')
@@ -143,7 +151,6 @@ get_lms <- function( age, gender, chart = 'Fenton2013', measure = 'Wt' ) {
 #' function to convert X + LMS parameters to a Z-score
 #' @param x Vector of measurements
 #' @param lms List of L, M, and S elements, each with length(x) elements
-#' @keywords LMS
 #' @export
 #' @examples
 #' # x_lms_to_z()
@@ -163,12 +170,30 @@ x_lms_to_z <- function( x, lms ) {
 #' X to Z-score function
 #'
 #' Function to take vectors of measurements, age, and gender, and unique chart and measure, to return Z score
+#' 
+#' The following charts are available, with their corresponding measures.
+#' 
+#' \tabular{lll}{
+#'   \strong{Chart} \tab \strong{Age} \tab \strong{Measures}\cr
+#'   CDCbmi \tab months \tab BMI(kg/m2)\cr
+#'   CDCinfant \tab months \tab HC(cm), Len(cm), Wt(kg)\cr
+#'   CDCpedi \tab months \tab Len(cm), Wt(kg)\cr
+#'   CDCskin \tab years \tab subscapular(mm), triceps(mm)\cr
+#'   DownInfant \tab months \tab HC(cm), Len(cm), Wt(kg)\cr
+#'   DownPedi \tab years \tab BMI(kg/m2), HC(cm), Height(cm), Wt(kg)\cr
+#'   Fenton2003 \tab weeks \tab HC(cm), Len(cm), Wt(kg)\cr
+#   Fenton2013 \tab weeks \tab HC(cm), Len(cm), Wt(g)\cr
+#'   Olsen2010 \tab weeks \tab HC(cm), Len(cm), Wt(g)\cr
+#'   OlsenBMI \tab weeks \tab BMI(g/cm2)\cr
+#'   WHOinfant \tab months \tab HC(cm), Len(cm), Wt(kg)\cr
+#'   WHOskin \tab months \tab arm circ(cm), subscapular(mm), triceps(mm)\cr
+#' }
+#' 
 #' @param x Vector of measurements
 #' @param age Vector of age parameters
 #' @param gender Vector of genders, either 'M' or 'F'
 #' @param chart Uniquely specified chart to obtain LMS parameters for. Defaults to 'Fenton 2013' premature growth chart.
 #' @param measure Uniquely specified measure for the chart. Defaults to 'Wt'.
-#' @keywords LMS
 #' @export
 #' @examples
 #' # 3, 10, 50, 90, and 97%ile for 30 0/7 week M on Fenton2013
