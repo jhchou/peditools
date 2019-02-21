@@ -4,49 +4,51 @@
 # lmsData is R object of LMS parameters for a collection of charts, in R/sysdata.rda for the package
 #
 # To get a summary of available charts and their measures:
-# lmsData %>% select(Chart, Measure) %>% unique() %>% group_by(Chart) %>% summarise(Measures = paste(sort(Measure,), collapse = ', '))
+# lmsData %>% select(Chart, Measure) %>% unique() %>% group_by(Chart) %>% summarise(Measures = paste(sort(Measure), collapse = ', '))
 #
 # To do:
-# [ ] DON'T export functions like lmsToValue, get_lms, lmsToZ
-# [ ] Probably ONLY need to export xToZ
-# [ ] Should include table of charts and their measures in help for xToZ
+# [ ] z_lms_to_x -- is this ever used, or just available, to perhaps make growth charts?
+# [ ] DON'T export functions like get_lms, x_lms_to_z
+# [ ] Probably ONLY need to export x_to_z
+# [ ] Should include table of charts and their measures in help for x_to_z
 # [ ] Need to rename functions
 # [ ] Need unit tests
 
 
 #' Z and LMS to X function
 #'
-#' Vectorized function to convert Z + LMS parameters to a measurement
-#' @param L lambda parameter
-#' @param M mu parameter
-#' @param S sigma parameter
-#' @param Z Z parameter
+#' Vectorized function to convert Z + LMS parameters to a measurement. If Z, L, M, or S are vectors of different length, will recycle the shorter vectors.
+#' @param Z Z parameter(s)
+#' @param L lambda parameter(s)
+#' @param M mu parameter(s)
+#' @param S sigma parameter(s)
 #' @keywords LMS
 #' @export
 #' @examples
-#' # lmsToValue()
-lmsToValue <- function( L, M, S, Z ) { # vectorized function to convert Z + LMS parameters to a measurement
+#' # z_lms_to_x()
+z_lms_to_x <- function( Z, L, M, S ) { # vectorized function to convert Z + LMS parameters to a measurement
   # reference explaining LMS parameters: http://www.cdc.gov/growthcharts/percentile_data_files.htm
 
   # If do unit tests, may want something like the following:
   #
-  # lmsToValue(1.41379, 1388.30336, 0.2114, -1) # check individual cases
-  # lmsToValue(1.41379, 1388.30336, 0.2114, 0)
-  # lmsToValue(1.41379, 1388.30336, 0.2114, 1)
-  # lmsToValue(1.41379, 1388.30336, 0.2114, c(-1,0,1)) # should now recycle properly
+  # z_lms_to_x(        -1, 1.41379, 1388.30336, 0.2114) # check individual cases
+  # z_lms_to_x(         0, 1.41379, 1388.30336, 0.2114)
+  # z_lms_to_x(         1, 1.41379, 1388.30336, 0.2114)
+  # z_lms_to_x( c(-1,0,1), 1.41379, 1388.30336, 0.2114) # should recycle properly
 
   # http://stackoverflow.com/questions/9335099/implementation-of-standard-recycling-rules
   expand.arguments <- function(...){
     # usage: expand.arguments(a = 1, b = 2, c = 1:4) --> List of 3: $a 1, 1, 1, 1; $b 2, 2, 2, 2,; $c 1, 2, 3, 4
+    # does NOT enforce shorter lists being length multiples of longer vectors
     dotList <- list(...)
     max.length <- max(sapply(dotList, length))
     lapply(dotList, rep, length = max.length)
   }
-  x <- expand.arguments(L, M, S, Z) # expands any of L, M, S, Z to the maximum length of any of the other arguments
-  L = x[[1]]
-  M = x[[2]]
-  S = x[[3]]
-  Z = x[[4]]
+  temp <- expand.arguments(Z, L, M, S) # expands any of Z, L, M, S to the maximum length of any of the other arguments
+  Z = temp[[1]]
+  L = temp[[2]]
+  M = temp[[3]]
+  S = temp[[4]]
 
   ifelse(
     L != 0,
@@ -144,8 +146,8 @@ get_lms <- function( age, gender, chart = 'Fenton2013', measure = 'Wt' ) {
 #' @keywords LMS
 #' @export
 #' @examples
-#' # lmsToZ()
-lmsToZ <- function( x, lms ) {
+#' # x_lms_to_z()
+x_lms_to_z <- function( x, lms ) {
     # function to convert x + LMS parameters to Z, works vectorized
     # lms input is a list with L, M, and S elements
     L = lms[['L']]
@@ -160,7 +162,7 @@ lmsToZ <- function( x, lms ) {
 
 #' X to Z-score function
 #'
-#' Function to take a vectors of measurements, age, and gender, and unique chart and measure, to return Z score
+#' Function to take vectors of measurements, age, and gender, and unique chart and measure, to return Z score
 #' @param x Vector of measurements
 #' @param age Vector of age parameters
 #' @param gender Vector of genders, either 'M' or 'F'
@@ -170,22 +172,22 @@ lmsToZ <- function( x, lms ) {
 #' @export
 #' @examples
 #' # 3, 10, 50, 90, and 97%ile for 30 0/7 week M on Fenton2013
-#' xToZ(
+#' x_to_z(
 #'     c(774.1259148, 986.5784793, 1388.303356, 1746.218584, 1903.278428),
 #'     rep(30, 5),
 #'     rep('M', 5),
 #'     chart = 'Fenton2013',
 #'     measure = 'Wt'
 #'   )
-#' round( pnorm( xToZ(
+#' round( pnorm( x_to_z(
 #'     c(774.1259148, 986.5784793, 1388.303356, 1746.218584, 1903.278428),
 #'     rep(30, 5),
 #'     rep('M', 5),
 #'     chart = 'Fenton2013',
 #'     measure = 'Wt'
 #'   ) ), 4)
-xToZ <- function(x, age, gender, chart = 'Fenton2013', measure = 'Wt') {
+x_to_z <- function(x, age, gender, chart = 'Fenton2013', measure = 'Wt') {
     # function to take a measurement x, and specify age, gender, chart, and measure, to return a Z score
-    z <- lmsToZ( x, get_lms( age, gender, chart, measure ) )
+    z <- x_lms_to_z( x, get_lms( age, gender, chart, measure ) )
     return( z )
 }
