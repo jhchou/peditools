@@ -1,0 +1,131 @@
+---
+title: "PediTools package notes"
+author: "Joseph Chou"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+```
+
+## Generate lmsData from `chartsLong.csv`
+
+`chartsLong.csv` columns:
+
+* Chart
+* Age
+* AgeUnits
+* Gender
+* Measure
+* MeasureUnits
+* L, M, S
+
+```r
+lmsData <- read.csv(file = '../data-raw/chartsLong.csv', stringsAsFactors = TRUE)
+```
+
+## `sysdata.rda`
+
+* needs to be saved in the correct format for package use
+* inside the `R` code directory
+
+Contains the data frame:
+
+* `lmsData`
+
+```r
+usethis::use_data(lmsData, internal = TRUE, overwrite = TRUE)
+```
+
+
+## Generate table of available charts / measures
+
+```r
+lmsData %>%
+  mutate(Measure = paste0(Measure, '(', MeasureUnits,')')) %>%
+  select(Chart, AgeUnits, Measure) %>%
+  unique() %>%
+  group_by(Chart, AgeUnits) %>%
+  summarise(Measures = paste(sort(Measure), collapse = ', ')) %>%
+  arrange(Chart)
+```
+
+For `roxygen2` documentation:
+
+```r
+tabular <- function(df, ...) {
+  stopifnot(is.data.frame(df))
+
+  align <- function(x) if (is.numeric(x)) "r" else "l"
+  col_align <- vapply(df, align, character(1))
+
+  cols <- lapply(df, format, ...)
+  contents <- do.call("paste",
+    c(cols, list(sep = " \\tab ", collapse = "\\cr\n#'   ")))
+
+  paste(
+    "#' \\tabular{", paste(col_align, collapse = ""), "}{\n#'   ",
+    paste0("\\strong{", names(df), "}", sep = "", collapse = " \\tab "), " \\cr\n#'   ",
+    contents, "\n#' }\n", sep = "")
+}
+
+lmsData %>%
+  mutate(Measure = paste0(Measure, '(', MeasureUnits,')')) %>%
+  select(Chart, AgeUnits, Measure) %>%
+  unique() %>%
+  group_by(Chart, AgeUnits) %>%
+  summarise(Measures = paste(sort(Measure), collapse = ', ')) %>%
+  arrange(Chart) %>%
+  tabular() %>%
+  cat()
+```
+
+## Rebuild documentation
+
+```r
+devtools::document() # rebuld documentation
+```
+
+## Building the package
+
+```r
+library(devtools)
+setwd("~/Desktop/R/peditools")
+setwd("..") # to build package, need to be in directory where package DIRECTORY is
+install("peditools")
+```
+
+Create a `tar.gz` version of the package
+
+* check where the tar.gz version of the package ends up
+
+```r
+build('peditools')
+```
+
+Inside of Terminal:
+
+To build a .tar.gz file (a “tarball”) for sharing the package:
+
+* `R CMD build myPackageName`
+
+To install the package from its folder:
+
+* `R CMD install myPackageName`
+
+To check the package, perhaps before submitting to CRAN:
+
+* `R CMD check myPackageName`
+
+
+## PediTools package install on MacOS, from terminal
+
+* `~/Dropbox\ \(Partners\ HealthCare\)/R/peditools/`
+
+* `R CMD INSTALL /Users/jeanjoe/Dropbox/peditools_0.3.0.9000.tar.gz`
+
+## PediTools package install on Windows
+
+* `Start --> CMD`
+* `"C:\R\R-3.5.2\bin\R.exe" CMD INSTALL H:peditools_0.1.2.tar.gz`
+
