@@ -4,14 +4,14 @@
 \alias{get_lms}
 \title{Get LMS parameters function}
 \usage{
-get_lms(age, gender, chart = "fenton_2013", measure = "weight")
+get_lms(age, gender, chart, measure = "weight")
 }
 \arguments{
 \item{age}{Vector of ages}
 
 \item{gender}{Vector of gender, either 'm' or 'f'}
 
-\item{chart}{Which chart to obtain LMS parameters for. Defaults to 'Fenton 2013' premature growth chart}
+\item{chart}{Which chart to obtain LMS parameters for}
 
 \item{measure}{Which measure for the chart. Defaults to 'weight'}
 }
@@ -19,5 +19,5 @@ get_lms(age, gender, chart = "fenton_2013", measure = "weight")
 Function to interpolate LMS parameters, given age, gender, chart, and measure
 }
 \examples{
-get_lms(c(38, 38), c('m', 'f'), chart = 'fenton_2013', measure = 'weight')
+get_lms(c(11.5, 11.5), c('m', 'f'), chart = 'cdc_2000_infant', measure = 'weight')
 }

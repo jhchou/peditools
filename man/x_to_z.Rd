@@ -4,7 +4,7 @@
 \alias{x_to_z}
 \title{X to Z-score function}
 \usage{
-x_to_z(x, age, gender, chart = "fenton_2013", measure = "weight")
+x_to_z(x, age, gender, chart, measure = "weight")
 }
 \arguments{
 \item{x}{Vector of measurements}
@@ -13,7 +13,7 @@ x_to_z(x, age, gender, chart = "fenton_2013", measure = "weight")
 
 \item{gender}{Vector of genders, either 'm' or 'f'}
 
-\item{chart}{Uniquely specified chart to obtain LMS parameters for. Defaults to 'Fenton 2013' premature growth chart.}
+\item{chart}{Uniquely specified chart to obtain LMS parameters for}
 
 \item{measure}{Uniquely specified measure for the chart. Defaults to 'weight'.}
 }
@@ -40,19 +40,19 @@ The following charts are available, with their corresponding measures.
 }
 }
 \examples{
-# 3, 10, 50, 90, and 97\%ile for 30 0/7 week M on fenton_2013
+# 3, 10, 50, 90, and 97\%ile weight for 8.5 month old female on CDC 2000 infant chart
 x_to_z(
-    c(774.1259148, 986.5784793, 1388.303356, 1746.218584, 1903.278428),
-    rep(30, 5),
-    rep('m', 5),
-    chart = 'fenton_2013',
+    c(6.720327734, 7.197413532, 8.314178377, 9.573546299, 10.2153883),
+    rep(8.5, 5),
+    rep('f', 5),
+    chart = 'cdc_2000_infant',
     measure = 'weight'
   )
 round( pnorm( x_to_z(
-    c(774.1259148, 986.5784793, 1388.303356, 1746.218584, 1903.278428),
-    rep(30, 5),
-    rep('m', 5),
-    chart = 'fenton_2013',
+    c(6.720327734, 7.197413532, 8.314178377, 9.573546299, 10.2153883),
+    rep(8.5, 5),
+    rep('f', 5),
+    chart = 'cdc_2000_infant',
     measure = 'weight'
   ) ), 4)
 }

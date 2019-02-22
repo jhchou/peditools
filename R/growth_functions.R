@@ -3,8 +3,6 @@
 # lmsdata (in R/sysdata.rda) is R an object of LMS parameters for a collection of charts
 #
 # To do:
-# [ ] rename charts
-# [ ] remove default chart to use
 # [ ] consider not exporting all functions, like get_lms, x_lms_to_z
 # [ ] Should include table of charts and their measures in help for x_to_z
 # [ ] rename functions
@@ -16,12 +14,12 @@
 #' Function to interpolate LMS parameters, given age, gender, chart, and measure
 #' @param age Vector of ages
 #' @param gender Vector of gender, either 'm' or 'f'
-#' @param chart Which chart to obtain LMS parameters for. Defaults to 'Fenton 2013' premature growth chart
+#' @param chart Which chart to obtain LMS parameters for
 #' @param measure Which measure for the chart. Defaults to 'weight'
 #' @export
 #' @examples
-#' get_lms(c(38, 38), c('m', 'f'), chart = 'fenton_2013', measure = 'weight')
-get_lms <- function( age, gender, chart = 'fenton_2013', measure = 'weight' ) {
+#' get_lms(c(11.5, 11.5), c('m', 'f'), chart = 'cdc_2000_infant', measure = 'weight')
+get_lms <- function( age, gender, chart, measure = 'weight' ) {
   # function to interpolate LMS parameters, given vector of age, vector of gender, unique chart, and unique measure
 
   # MALE
@@ -135,26 +133,26 @@ x_lms_to_z <- function( x, lms ) {
 #' @param x Vector of measurements
 #' @param age Vector of age parameters
 #' @param gender Vector of genders, either 'm' or 'f'
-#' @param chart Uniquely specified chart to obtain LMS parameters for. Defaults to 'Fenton 2013' premature growth chart.
+#' @param chart Uniquely specified chart to obtain LMS parameters for
 #' @param measure Uniquely specified measure for the chart. Defaults to 'weight'.
 #' @export
 #' @examples
-#' # 3, 10, 50, 90, and 97%ile for 30 0/7 week M on fenton_2013
+#' # 3, 10, 50, 90, and 97%ile weight for 8.5 month old female on CDC 2000 infant chart
 #' x_to_z(
-#'     c(774.1259148, 986.5784793, 1388.303356, 1746.218584, 1903.278428),
-#'     rep(30, 5),
-#'     rep('m', 5),
-#'     chart = 'fenton_2013',
+#'     c(6.720327734, 7.197413532, 8.314178377, 9.573546299, 10.2153883),
+#'     rep(8.5, 5),
+#'     rep('f', 5),
+#'     chart = 'cdc_2000_infant',
 #'     measure = 'weight'
 #'   )
 #' round( pnorm( x_to_z(
-#'     c(774.1259148, 986.5784793, 1388.303356, 1746.218584, 1903.278428),
-#'     rep(30, 5),
-#'     rep('m', 5),
-#'     chart = 'fenton_2013',
+#'     c(6.720327734, 7.197413532, 8.314178377, 9.573546299, 10.2153883),
+#'     rep(8.5, 5),
+#'     rep('f', 5),
+#'     chart = 'cdc_2000_infant',
 #'     measure = 'weight'
 #'   ) ), 4)
-x_to_z <- function(x, age, gender, chart = 'fenton_2013', measure = 'weight') {
+x_to_z <- function(x, age, gender, chart, measure = 'weight') {
     # function to take a measurement x, and specify age, gender, chart, and measure, to return a Z score
     z <- x_lms_to_z( x, get_lms( age, gender, chart, measure ) )
     return( z )
