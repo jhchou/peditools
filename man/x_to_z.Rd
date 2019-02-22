@@ -4,18 +4,18 @@
 \alias{x_to_z}
 \title{X to Z-score function}
 \usage{
-x_to_z(x, age, gender, chart = "Fenton2013", measure = "Wt")
+x_to_z(x, age, gender, chart = "fenton_2013", measure = "weight")
 }
 \arguments{
 \item{x}{Vector of measurements}
 
 \item{age}{Vector of age parameters}
 
-\item{gender}{Vector of genders, either 'M' or 'F'}
+\item{gender}{Vector of genders, either 'm' or 'f'}
 
 \item{chart}{Uniquely specified chart to obtain LMS parameters for. Defaults to 'Fenton 2013' premature growth chart.}
 
-\item{measure}{Uniquely specified measure for the chart. Defaults to 'Wt'.}
+\item{measure}{Uniquely specified measure for the chart. Defaults to 'weight'.}
 }
 \description{
 Function to take vectors of measurements, age, and gender, and unique chart and measure, to return Z score
@@ -24,34 +24,35 @@ Function to take vectors of measurements, age, and gender, and unique chart and 
 The following charts are available, with their corresponding measures.
 
 \tabular{lll}{
-  \strong{Chart} \tab \strong{Age} \tab \strong{Measures}\cr
-  CDCbmi \tab months \tab BMI(kg/m2)\cr
-  CDCinfant \tab months \tab HC(cm), Len(cm), Wt(kg)\cr
-  CDCpedi \tab months \tab Len(cm), Wt(kg)\cr
-  CDCskin \tab years \tab subscapular(mm), triceps(mm)\cr
-  DownInfant \tab months \tab HC(cm), Len(cm), Wt(kg)\cr
-  DownPedi \tab years \tab BMI(kg/m2), HC(cm), Height(cm), Wt(kg)\cr
-  Fenton2003 \tab weeks \tab HC(cm), Len(cm), Wt(kg)\cr
-  Olsen2010 \tab weeks \tab HC(cm), Len(cm), Wt(g)\cr
-  OlsenBMI \tab weeks \tab BMI(g/cm2)\cr
-  WHOinfant \tab months \tab HC(cm), Len(cm), Wt(kg)\cr
-  WHOskin \tab months \tab arm circ(cm), subscapular(mm), triceps(mm)\cr
+  \strong{chart} \tab \strong{age_units} \tab \strong{measures} \cr
+  addo_2010_skin    \tab years  \tab subscapular(mm), triceps(mm)                     \cr
+  cdc_2000_bmi      \tab months \tab bmi(kg/m2)                                       \cr
+  cdc_2000_infant   \tab months \tab head_circ(cm), length(cm), weight(kg)            \cr
+  cdc_2000_pedi     \tab months \tab height(cm), weight(kg)                           \cr
+  fenton_2003       \tab weeks  \tab head_circ(cm), length(cm), weight(kg)            \cr
+  fenton_2013       \tab weeks  \tab head_circ(cm), length(cm), weight(g)             \cr
+  olsen_2010        \tab weeks  \tab head_circ(cm), length(cm), weight(g)             \cr
+  olsen_2015_bmi    \tab weeks  \tab bmi(g/cm2)                                       \cr
+  who_2006_infant   \tab months \tab head_circ(cm), length(cm), weight(kg)            \cr
+  who_2007_skin_arm \tab months \tab arm_circ(cm), subscapular(mm), triceps(mm)       \cr
+  zemel_2015_infant \tab months \tab head_circ(cm), length(cm), weight(kg)            \cr
+  zemel_2015_pedi   \tab years  \tab bmi(kg/m2), head_circ(cm), height(cm), weight(kg)
 }
 }
 \examples{
-# 3, 10, 50, 90, and 97\%ile for 30 0/7 week M on Fenton2013
+# 3, 10, 50, 90, and 97\%ile for 30 0/7 week M on fenton_2013
 x_to_z(
     c(774.1259148, 986.5784793, 1388.303356, 1746.218584, 1903.278428),
     rep(30, 5),
-    rep('M', 5),
-    chart = 'Fenton2013',
-    measure = 'Wt'
+    rep('m', 5),
+    chart = 'fenton_2013',
+    measure = 'weight'
   )
 round( pnorm( x_to_z(
     c(774.1259148, 986.5784793, 1388.303356, 1746.218584, 1903.278428),
     rep(30, 5),
-    rep('M', 5),
-    chart = 'Fenton2013',
-    measure = 'Wt'
+    rep('m', 5),
+    chart = 'fenton_2013',
+    measure = 'weight'
   ) ), 4)
 }

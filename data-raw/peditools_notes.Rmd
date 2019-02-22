@@ -8,46 +8,36 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 ```
 
-## Generate lmsData from `chartsLong.csv`
+## `charts_long.csv` to `lmsdata` to `sysdata.rda`
 
-`chartsLong.csv` columns:
+`charts_long.csv` columns:
 
-* Chart
-* Age
-* AgeUnits
-* Gender
-* Measure
-* MeasureUnits
+* chart
+* age
+* age_units
+* gender
+* measure
+* measure_units
 * L, M, S
 
-```r
-lmsData <- read.csv(file = '../data-raw/chartsLong.csv', stringsAsFactors = TRUE)
-```
-
-## `sysdata.rda`
-
-* needs to be saved in the correct format for package use
-* inside the `R` code directory
-
-Contains the data frame:
-
-* `lmsData`
+* `sysdata.rda` needs to be saved in the correct format for package use, inside the `R` code directory
 
 ```r
-usethis::use_data(lmsData, internal = TRUE, overwrite = TRUE)
+lmsdata <- read.csv(file = 'data-raw/charts_long.csv', stringsAsFactors = TRUE) # read from CSV file
+usethis::use_data(lmsdata, internal = TRUE, overwrite = TRUE)                   # save dataframe into sys.data in proper format
 ```
-
 
 ## Generate table of available charts / measures
 
 ```r
-lmsData %>%
-  mutate(Measure = paste0(Measure, '(', MeasureUnits,')')) %>%
-  select(Chart, AgeUnits, Measure) %>%
+lmsdata %>%
+#  filter(chart != 'fenton_2013') %>%
+  mutate(measure = paste0(measure, '(', measure_units,')')) %>%
+  select(chart, age_units, measure) %>%
   unique() %>%
-  group_by(Chart, AgeUnits) %>%
-  summarise(Measures = paste(sort(Measure), collapse = ', ')) %>%
-  arrange(Chart)
+  group_by(chart, age_units) %>%
+  summarise(measures = paste(sort(measure), collapse = ', ')) %>%
+  arrange(chart)
 ```
 
 For `roxygen2` documentation:
@@ -69,13 +59,14 @@ tabular <- function(df, ...) {
     contents, "\n#' }\n", sep = "")
 }
 
-lmsData %>%
-  mutate(Measure = paste0(Measure, '(', MeasureUnits,')')) %>%
-  select(Chart, AgeUnits, Measure) %>%
+lmsdata %>%
+#  filter(chart != 'fenton_2013') %>%
+  mutate(measure = paste0(measure, '(', measure_units,')')) %>%
+  select(chart, age_units, measure) %>%
   unique() %>%
-  group_by(Chart, AgeUnits) %>%
-  summarise(Measures = paste(sort(Measure), collapse = ', ')) %>%
-  arrange(Chart) %>%
+  group_by(chart, age_units) %>%
+  summarise(measures = paste(sort(measure), collapse = ', ')) %>%
+  arrange(chart) %>%
   tabular() %>%
   cat()
 ```
