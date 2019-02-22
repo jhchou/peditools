@@ -1,5 +1,17 @@
 context("LMS Growth functions")
 
+
+test_that("get_lms requires a unique chart and measurement", {
+  expect_error(get_lms(age = 1, gender = 'm', chart = 'xyz', measure = 'weight'))                                 # no chart matched
+  expect_error(get_lms(age = 1, gender = 'm', chart = 'cdc_2000_infant', measure = 'xyz'))                        # no chart matched
+  expect_error(get_lms(age = 1, gender = 'm', chart = c('cdc_2000_infant', 'cdc_2000_pedi'), measure = 'weight')) # multiple charts given
+  expect_error(get_lms(age = 1, gender = 'm', chart = 'cdc_2000_infant', measure = c('weight', 'length')))        # multiple measurements
+})
+
+
+
+
+
 test_that("x_to_z is vectorized", {
 
   # > lmsdata %>% filter(chart == 'cdc_2000_infant', age %in% c(10.5, 11.5, 12.5), measure == 'weight')

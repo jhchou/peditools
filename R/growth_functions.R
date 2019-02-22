@@ -21,21 +21,31 @@
 #' get_lms(c(11.5, 11.5), c('m', 'f'), chart = 'cdc_2000_infant', measure = 'weight')
 get_lms <- function( age, gender, chart, measure = 'weight' ) {
   # function to interpolate LMS parameters, given vector of age, vector of gender, unique chart, and unique measure
+  # - approxfun does NOT extrapolate, so will automatically remain within range of chart, or else return NA
+  
+  if ((length(chart) != 1) | (length(measure) != 1)) {
+    stop('Not vectorized over charts or measures -- needs a unique chart and measure', call. = FALSE)
+  }
+  
+  # To allow vectorized function over gender, will actually calculate for both genders, and then select the appropriate number at end
 
   # MALE
   lms <- lmsdata[ (lmsdata$chart == chart) & (lmsdata$measure == measure) & (lmsdata$gender) == 'm', ]
-  if (nrow(lms) == 0) { return(NA) } # No chart matched
+  if (nrow(lms) == 0) { # No chart matched
+    stop('No chart / measure matched', call. = FALSE)
+  }
   # generate functions to interpolate LMS parameters
   lms <- lms[ order(lms$age), ] # for safety and robustness, ensure dataframe sorted by Age
   fxn_l_male <- stats::approxfun( lms$age, lms$L ) # stats::approxfun: linear interpolation; returns NA if out of range
   fxn_m_male <- stats::approxfun( lms$age, lms$M )
   fxn_s_male <- stats::approxfun( lms$age, lms$S )
-
   lms_male <- list(L_male = fxn_l_male(age), M_male = fxn_m_male(age), S_male = fxn_s_male(age))
 
   # FEMALE
   lms <- lmsdata[ (lmsdata$chart == chart) & (lmsdata$measure == measure) & (lmsdata$gender) == 'f', ]
-  if (nrow(lms) == 0) { return(NA) } # No chart matched
+  if (nrow(lms) == 0) { # No chart matched
+    stop('No chart / measure matched', call. = FALSE)
+  }
   # generate functions to interpolate LMS parameters
   lms <- lms[ order(lms$age), ] # for safety and robustness, ensure dataframe sorted by Age
   fxn_l_female <- stats::approxfun( lms$age, lms$L ) # stats::approxfun: linear interpolation; returns NA if out of range
@@ -46,7 +56,9 @@ get_lms <- function( age, gender, chart, measure = 'weight' ) {
   gender <- tolower(substr(gender, 1, 1))
 
   df <- data.frame(age, gender, lms_male, lms_female) # if gender is a vector of length 1, will be expanded to fill dataframe
-
+  
+  # Select the correct male versus female LMS parameter, depending on df$gender
+  # - if neither 'm' or 'f', fill in NA
   df$L <- ifelse(
     df$gender == 'm',
     df$L_male,
@@ -78,10 +90,10 @@ get_lms <- function( age, gender, chart, measure = 'weight' ) {
   )
 
   return( list( L = df$L, M = df$M, S = df$S,
-                Chart        = as.character(lms[1, 'Chart']),
-                AgeUnits     = as.character(lms[1, 'AgeUnits']),
-                Measure      = as.character(lms[1, 'Measure']),
-                MeasureUnits = as.character(lms[1, 'MeasureUnits'])
+                Chart        = as.character(lms[1, 'chart']),
+                AgeUnits     = as.character(lms[1, 'age_units']),
+                Measure      = as.character(lms[1, 'measure']),
+                MeasureUnits = as.character(lms[1, 'measure_units'])
   ) )
 
 }
@@ -171,8 +183,6 @@ x_to_z <- function(x, age, gender, chart, measure = 'weight') {
 #' @examples
 #' # z_lms_to_x()
 z_lms_to_x <- function( Z, L, M, S ) { # vectorized function to convert Z + LMS parameters to a measurement
-  # reference explaining LMS parameters: http://www.cdc.gov/growthcharts/percentile_data_files.htm
-
   # If do unit tests, may want something like the following:
   #
   # z_lms_to_x(        -1, 1.41379, 1388.30336, 0.2114) # check individual cases
