@@ -4,8 +4,8 @@
 #
 # To do:
 # [ ] consider not exporting all functions, like get_lms, x_lms_to_z
-# [ ] Should include table of charts and their measures in help for x_to_z
-# [ ] rename functions
+# [x] Should include table of charts and their measures in help for x_to_z
+# [x] rename functions
 # [ ] unit tests
 
 
