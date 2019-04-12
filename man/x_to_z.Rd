@@ -25,12 +25,14 @@ The following charts are available, with their corresponding measures.
 
 \tabular{lll}{
   \strong{chart} \tab \strong{age_units} \tab \strong{measures} \cr
+  abdel-rahman_2017 \tab months \tab arm_circ(cm)                                     \cr
   addo_2010_skin    \tab years  \tab subscapular(mm), triceps(mm)                     \cr
   cdc_2000_bmi      \tab months \tab bmi(kg/m2)                                       \cr
   cdc_2000_infant   \tab months \tab head_circ(cm), length(cm), weight(kg)            \cr
   cdc_2000_pedi     \tab months \tab height(cm), weight(kg)                           \cr
   fenton_2003       \tab weeks  \tab head_circ(cm), length(cm), weight(kg)            \cr
   fenton_2013       \tab weeks  \tab head_circ(cm), length(cm), weight(g)             \cr
+  mramba_2017       \tab months \tab arm_circ(cm)                                     \cr
   olsen_2010        \tab weeks  \tab head_circ(cm), length(cm), weight(g)             \cr
   olsen_2015_bmi    \tab weeks  \tab bmi(g/cm2)                                       \cr
   who_2006_infant   \tab months \tab head_circ(cm), length(cm), weight(kg)            \cr

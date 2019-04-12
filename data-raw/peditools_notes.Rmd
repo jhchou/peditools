@@ -81,7 +81,8 @@ devtools::document() # rebuld documentation
 
 ```r
 library(devtools)
-setwd("~/Desktop/R/peditools")
+# setwd("~/Desktop/R/peditools")
+setwd("~/Dropbox (Partners HealthCare)/R/peditools")
 setwd("..") # to build package, need to be in directory where package DIRECTORY is
 install("peditools")
 ```
