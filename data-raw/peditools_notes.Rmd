@@ -40,6 +40,25 @@ lmsdata %>%
   arrange(chart)
 ```
 
+### Generate table of charts / measures with age ranges
+
+```r
+lmsdata %>%
+  group_by(chart, age_units) %>%
+  summarise(
+    min = min(age) %>% round(),
+    max = max(age) %>% round(),
+    measures = paste(unique(measure), collapse=', ')
+  ) %>%
+  ungroup() %>%
+  transmute(
+    chart = chart,
+    range = paste0(min, '-', max),
+    age_units,
+    measures
+  )
+```
+
 For `roxygen2` documentation:
 
 ```r

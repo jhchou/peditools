@@ -1,7 +1,7 @@
 Package: peditools
 Title: Pediatric Clinical Data Science Tools
 Date: 2019-04-12
-Version: 0.3.0.9002
+Version: 0.3.0.9003
 Authors@R: person("Joseph", "Chou", email = "joe.nicu@gmail.com", role = c("aut", "cre"))
 Description: A collection of tools for newborn and pediatric anthropometric calculations
     and data abstraction from Vermont Oxford Network registry exports. Includes charts

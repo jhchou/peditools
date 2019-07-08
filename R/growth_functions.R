@@ -120,6 +120,44 @@ x_lms_to_z <- function( x, lms ) {
 }
 
 
+#' Z and LMS to X function
+#'
+#' Vectorized function to convert Z + LMS parameters to a measurement. If Z, L, M, or S are vectors of different length, will recycle the shorter vectors.
+#' @param Z Z parameter(s)
+#' @param L lambda parameter(s)
+#' @param M mu parameter(s)
+#' @param S sigma parameter(s)
+#' @export
+#' @examples
+#' # z_lms_to_x()
+z_lms_to_x <- function( Z, L, M, S ) { # vectorized function to convert Z + LMS parameters to a measurement
+  # If do unit tests, may want something like the following:
+  #
+  # z_lms_to_x(        -1, 1.41379, 1388.30336, 0.2114) # check individual cases
+  # z_lms_to_x(         0, 1.41379, 1388.30336, 0.2114)
+  # z_lms_to_x(         1, 1.41379, 1388.30336, 0.2114)
+  # z_lms_to_x( c(-1,0,1), 1.41379, 1388.30336, 0.2114) # should recycle properly
+  # http://stackoverflow.com/questions/9335099/implementation-of-standard-recycling-rules
+  expand.arguments <- function(...){
+    # usage: expand.arguments(a = 1, b = 2, c = 1:4) --> List of 3: $a 1, 1, 1, 1; $b 2, 2, 2, 2,; $c 1, 2, 3, 4
+    # does NOT enforce shorter lists being length multiples of longer vectors
+    dotList <- list(...)
+    max.length <- max(sapply(dotList, length))
+    lapply(dotList, rep, length = max.length)
+  }
+  temp <- expand.arguments(Z, L, M, S) # expands any of Z, L, M, S to the maximum length of any of the other arguments
+  Z = temp[[1]]
+  L = temp[[2]]
+  M = temp[[3]]
+  S = temp[[4]]
+  ifelse(
+    L != 0,
+      M * (1 + L*S*Z) ^ (1/L), # for L != 0
+      M * exp(S*Z)             # for L == 0
+    )
+}
+
+
 #' X to Z-score function
 #'
 #' Function to take vectors of measurements, age, and gender, and unique chart and measure, to return Z score
@@ -170,45 +208,4 @@ x_to_z <- function(x, age, gender, chart, measure = 'weight') {
     # function to take a measurement x, and specify age, gender, chart, and measure, to return a Z score
     z <- x_lms_to_z( x, get_lms( age, gender, chart, measure ) )
     return( z )
-}
-
-
-
-#' Z and LMS to X function
-#'
-#' Vectorized function to convert Z + LMS parameters to a measurement. If Z, L, M, or S are vectors of different length, will recycle the shorter vectors.
-#' @param Z Z parameter(s)
-#' @param L lambda parameter(s)
-#' @param M mu parameter(s)
-#' @param S sigma parameter(s)
-#' @export
-#' @examples
-#' # z_lms_to_x()
-z_lms_to_x <- function( Z, L, M, S ) { # vectorized function to convert Z + LMS parameters to a measurement
-  # If do unit tests, may want something like the following:
-  #
-  # z_lms_to_x(        -1, 1.41379, 1388.30336, 0.2114) # check individual cases
-  # z_lms_to_x(         0, 1.41379, 1388.30336, 0.2114)
-  # z_lms_to_x(         1, 1.41379, 1388.30336, 0.2114)
-  # z_lms_to_x( c(-1,0,1), 1.41379, 1388.30336, 0.2114) # should recycle properly
-
-  # http://stackoverflow.com/questions/9335099/implementation-of-standard-recycling-rules
-  expand.arguments <- function(...){
-    # usage: expand.arguments(a = 1, b = 2, c = 1:4) --> List of 3: $a 1, 1, 1, 1; $b 2, 2, 2, 2,; $c 1, 2, 3, 4
-    # does NOT enforce shorter lists being length multiples of longer vectors
-    dotList <- list(...)
-    max.length <- max(sapply(dotList, length))
-    lapply(dotList, rep, length = max.length)
-  }
-  temp <- expand.arguments(Z, L, M, S) # expands any of Z, L, M, S to the maximum length of any of the other arguments
-  Z = temp[[1]]
-  L = temp[[2]]
-  M = temp[[3]]
-  S = temp[[4]]
-
-  ifelse(
-    L != 0,
-      M * (1 + L*S*Z) ^ (1/L), # for L != 0
-      M * exp(S*Z)             # for L == 0
-    )
 }
