@@ -140,3 +140,34 @@ To check the package, perhaps before submitting to CRAN:
 * `Start --> CMD`
 * `"C:\R\R-3.5.2\bin\R.exe" CMD INSTALL H:peditools_0.1.2.tar.gz`
 
+
+## Adding a new function to the package
+
+
+* update DESCRIPTION date / version / description / Imports
+* add function with #' documentation header
+* make sure all non-standard functions get <package>:: prefix, and are added to Imports: (or Suggests:) in DESCRIPTION
+
+
+* Testing: Build menu: load all, install and restart, clean and rebuild, test package, check package
+
+    * `devtools::document() # rebuld documentation and update NAMESPACE`
+    * `Build --> Clean and Rebuild`
+
+* Build
+
+    * `library(devtools)`
+    * `setwd("~/Dropbox (Partners HealthCare)/R/peditools")`
+    * `setwd("..") # go one directory up`
+    * `install("peditools") # build package?`
+    * `build("peditools") # Create a tar.gz version of the package`
+
+* Installing
+
+    * Mac, in Terminal:
+        `R CMD INSTALL /Users/jeanjoe/Dropbox/peditools_0.3.0.9004.tar.gz`
+
+    * Windows: 
+        Place copy of .tar.gz into HOMEDIR (H: drive)
+        `Start --> CMD`
+        `"C:\R\R-3.5.2\bin\R.exe" CMD INSTALL H:peditools_0.3.0.9004.tar.gz`

@@ -7,10 +7,10 @@
 recode_von(von)
 }
 \arguments{
-\item{von}{The output of a read.csv performed on a VON data export}
+\item{von}{A dataframe output of a VON data export}
 }
 \description{
-This function takes a VON CSV file as a dataframe, and recodes the variables.
+This function takes a VON export converted into a dataframe, and recodes the variables.
 }
 \examples{
 # recode_von()

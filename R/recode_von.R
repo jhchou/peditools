@@ -1,7 +1,7 @@
 #' VON recoding function
 #'
-#' This function takes a VON CSV file as a dataframe, and recodes the variables.
-#' @param von The output of a read.csv performed on a VON data export
+#' This function takes a VON export converted into a dataframe, and recodes the variables.
+#' @param von A dataframe output of a VON data export
 #' @keywords VON
 #' @export
 #' @examples
@@ -174,3 +174,24 @@ recode_von = function ( von ) {
 
     return (von)
 }
+
+
+
+#' VON XML recoding function
+#'
+#' This function takes a link to a VON XML export and coverts it into a dataframe and recodes the variables.
+#' @param von_xml A link to the XML output of a VON data export
+#' @keywords VON
+#' @export
+#' @examples
+#' # recode_von_xml()
+
+recode_von_xml = function ( von_xml ) {
+  df <- XML::xmlParse(von_xml)  # read XML object
+  df <- XML::xmlToDataFrame(df) # convert XML object to dataframe, all characters
+  df <- as.data.frame(lapply(df, utils::type.convert, as.is = TRUE), stringsAsFactors = FALSE) # infer column types; as.is and stringsAsFactors to keep as characters, not factors
+  return(peditools::recode_von(df))
+}
+
+
+

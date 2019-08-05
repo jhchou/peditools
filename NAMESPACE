@@ -2,6 +2,7 @@
 
 export(get_lms)
 export(recode_von)
+export(recode_von_xml)
 export(x_lms_to_z)
 export(x_to_z)
 export(z_lms_to_x)
