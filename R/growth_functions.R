@@ -172,7 +172,6 @@ z_lms_to_x <- function( Z, L, M, S ) { # vectorized function to convert Z + LMS 
 #'   cdc_2000_infant   \tab months \tab head_circ(cm), length(cm), weight(kg)            \cr
 #'   cdc_2000_pedi     \tab months \tab height(cm), weight(kg)                           \cr
 #'   fenton_2003       \tab weeks  \tab head_circ(cm), length(cm), weight(kg)            \cr
-#'   fenton_2013       \tab weeks  \tab head_circ(cm), length(cm), weight(g)             \cr
 #'   mramba_2017       \tab months \tab arm_circ(cm)                                     \cr
 #'   olsen_2010        \tab weeks  \tab head_circ(cm), length(cm), weight(g)             \cr
 #'   olsen_2015_bmi    \tab weeks  \tab bmi(g/cm2)                                       \cr
