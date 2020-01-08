@@ -9,6 +9,39 @@
 # [ ] unit tests
 
 
+
+# Open code outside of a function -- apparently this is run once when the package is first loaded?
+# - lmsdata from sysdata.rda does not appear to be accessible outside of functions
+# - so instead, will initialize it to NULL here, and then populate / retrieve it from a getter function
+data_env <- new.env(parent = emptyenv())
+data_env$lmsadata <- NULL
+
+
+#' Get lmsdata
+get_lmsdata <- function() {
+  if (is.null(data_env$lmsdata)) {
+    # print('loading for first time')
+    data_env$lmsdata <- lmsdata
+  }
+  return(data_env$lmsdata)
+}
+
+
+#' Add lmsdata
+#' 
+#' Function to add to lmsdata in data_env environment
+#' @param df Dataframe of new LMS data to add
+#' @export
+add_lmsdata <- function(df) {
+  # Should make this much safer, by handling:
+  # [ ] chart to add already exists
+  # [ ] missing or additional columns (should make rbind fail, as opposed to bind_rows in tidyverse?)
+  data_env$lmsdata <- rbind(data_env$lmsdata, df)
+}
+
+
+
+
 #' Get LMS parameters function
 #'
 #' Function to interpolate LMS parameters, given age, gender, chart, and measure
@@ -23,6 +56,8 @@ get_lms <- function( age, gender, chart, measure = 'weight' ) {
   # function to interpolate LMS parameters, given vector of age, vector of gender, unique chart, and unique measure
   # - approxfun does NOT extrapolate, so will automatically remain within range of chart, or else return NA
   
+  lmsdata <- get_lmsdata() # load lmsdata from the created environment
+
   if ((length(chart) != 1) | (length(measure) != 1)) {
     stop('Not vectorized over charts or measures -- needs a unique chart and measure', call. = FALSE)
   }
