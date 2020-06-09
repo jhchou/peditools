@@ -41,6 +41,7 @@ add_lmsdata <- function(df) {
   # Should make this much safer, by handling:
   # [ ] chart to add already exists
   # [ ] missing or additional columns (should make rbind fail, as opposed to bind_rows in tidyverse?)
+  lmsdata <- get_lmsdata() # need to run this once first, or built-in lmsdata will never get loaded
   data_env$lmsdata <- rbind(data_env$lmsdata, df)
 }
 
