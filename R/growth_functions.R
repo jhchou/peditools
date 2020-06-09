@@ -14,10 +14,15 @@
 # - lmsdata from sysdata.rda does not appear to be accessible outside of functions
 # - so instead, will initialize it to NULL here, and then populate / retrieve it from a getter function
 data_env <- new.env(parent = emptyenv())
-data_env$lmsadata <- NULL
+data_env$lmsdata <- NULL
 
 
 #' Get lmsdata
+#' 
+#' Function to return the dataframe containing all LMS values, measures, and units of measure, including any added with add_lmsdata()
+#' @export
+#' @examples
+#' head(get_lmsdata())
 get_lmsdata <- function() {
   if (is.null(data_env$lmsdata)) {
     # print('loading for first time')
