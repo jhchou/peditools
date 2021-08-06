@@ -28,7 +28,9 @@ recode_von = function ( von ) {
                                 "ox36","vent36","hfv36","hfnc36","numv36","cpap36","sterbpd",
                                 "indometh","ibuprofen","probiotics","ropantivegf","srglig","osurg",
                                 "rds","pntx","pda","giperf","cnegstaph","fungal","pvl","eyex",
-                                "oxfinal","acfinal","ecmop","cooled","hypoiep","mecasp","trcsucma","seizure","nimv36"),
+                                "oxfinal","acfinal","ecmop","cooled","hypoiep","mecasp","trcsucma","seizure","nimv36",
+                                "congeninf","vitamina","hfvfinal","drlma","drnimv","acetamin","caffeine",
+                                "pdasurg","ventfinal","hfncfinal","nimvfinal","cpapfinal","xfer_out","mdiabetes"),
                     recodes = "0 = 'No'; 1 = 'Yes'; 7 = NA; 9 = NA", as.factor = TRUE )
 
     von <- recode2( data = von,
