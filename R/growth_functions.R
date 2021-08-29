@@ -77,9 +77,9 @@ get_lms <- function( age, gender, chart, measure = 'weight' ) {
   }
   # generate functions to interpolate LMS parameters
   lms <- lms[ order(lms$age), ] # for safety and robustness, ensure dataframe sorted by Age
-  fxn_l_male <- stats::approxfun( lms$age, lms$L ) # stats::approxfun: linear interpolation; returns NA if out of range
-  fxn_m_male <- stats::approxfun( lms$age, lms$M )
-  fxn_s_male <- stats::approxfun( lms$age, lms$S )
+  fxn_l_male <- stats::approxfun( lms$age, lms$L, ties = "ordered" ) # stats::approxfun: linear interpolation; returns NA if out of range
+  fxn_m_male <- stats::approxfun( lms$age, lms$M, ties = "ordered" )
+  fxn_s_male <- stats::approxfun( lms$age, lms$S, ties = "ordered" )
   lms_male <- list(L_male = fxn_l_male(age), M_male = fxn_m_male(age), S_male = fxn_s_male(age))
 
   # FEMALE
@@ -89,9 +89,9 @@ get_lms <- function( age, gender, chart, measure = 'weight' ) {
   }
   # generate functions to interpolate LMS parameters
   lms <- lms[ order(lms$age), ] # for safety and robustness, ensure dataframe sorted by Age
-  fxn_l_female <- stats::approxfun( lms$age, lms$L ) # stats::approxfun: linear interpolation; returns NA if out of range
-  fxn_m_female <- stats::approxfun( lms$age, lms$M )
-  fxn_s_female <- stats::approxfun( lms$age, lms$S )
+  fxn_l_female <- stats::approxfun( lms$age, lms$L, ties = "ordered" ) # stats::approxfun: linear interpolation; returns NA if out of range
+  fxn_m_female <- stats::approxfun( lms$age, lms$M, ties = "ordered" )
+  fxn_s_female <- stats::approxfun( lms$age, lms$S, ties = "ordered" )
   lms_female <- list(L_female = fxn_l_female(age), M_female = fxn_m_female(age), S_female = fxn_s_female(age))
 
   gender <- tolower(substr(gender, 1, 1))
