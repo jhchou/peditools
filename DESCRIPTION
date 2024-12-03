@@ -1,15 +1,16 @@
 Package: peditools
 Title: Pediatric Clinical Data Science Tools
-Date: 2021-08-29
-Version: 0.3.0.9009
+Date: 2024-12-03
+Version: 0.3.0.91
 Authors@R: person("Joseph", "Chou", email = "joe.nicu@gmail.com", role = c("aut", "cre"))
 Description: A collection of tools for newborn and pediatric anthropometric calculations
     and data abstraction from Vermont Oxford Network registry exports. Includes charts
     based on Lambda, Mu, Sigma (LMS) parameters, including: Fenton 2003,
     Olsen 2010, Olsen BMI, CDC infant, CDC pediatric, CDC BMI, CDC (Addo) skin, WHO infant,
-    WHO skin, Abdel-Rahman 2017, Mramba 2017, and Zemel Down Syndrome. Includes functions
-    to take a Vermont Oxford Network XML or CSV data file export read into a data frame,
-    converting the coded variables into human readable factors.
+    WHO skin, Abdel-Rahman 2017, Mramba 2017, Zemel Down Syndrome, Brooks cerebral palsy,
+    WHO expanded. Includes functions to take a Vermont Oxford Network XML or CSV data file
+    export read into a data frame, converting the coded variables into human readable
+    factors.
 Depends:
     R (>= 3.5.0)
 License: MIT + file LICENSE
