@@ -8,9 +8,9 @@ Description: A collection of tools for newborn and pediatric anthropometric calc
     based on Lambda, Mu, Sigma (LMS) parameters, including: Fenton 2003,
     Olsen 2010, Olsen BMI, CDC infant, CDC pediatric, CDC BMI, CDC (Addo) skin, WHO infant,
     WHO skin, Abdel-Rahman 2017, Mramba 2017, Zemel Down Syndrome, Brooks cerebral palsy,
-    WHO expanded, Cappa 2024. Includes functions to take a Vermont Oxford Network XML or
-    CSV data file export read into a data frame, converting the coded variables into human
-    readable factors.
+    WHO expanded, Cappa 2024 (except BMI). Includes functions to take a Vermont Oxford
+    Network XML or CSV data file export read into a data frame, converting the coded
+    variables into human readable factors.
 Depends:
     R (>= 3.5.0)
 License: MIT + file LICENSE
