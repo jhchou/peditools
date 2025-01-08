@@ -46,6 +46,21 @@ add_lmsdata <- function(df) {
 }
 
 
+#' Get chart metadata
+#' 
+#' Function to return the dataframe containing chart metadata, including chart name, anthropometric measure and units,
+#' age label and units with min, max, and range, source URL and text, and any notes
+#' @export
+#' @examples
+#' head(get_chartmetadata())
+get_chartmetadata <- function() {
+  if (is.null(data_env$chart_metadata)) {
+    # print('loading for first time')
+    data_env$chart_metadata <- chart_metadata
+  }
+  return(data_env$chart_metadata)
+}
+
 
 
 #' Get LMS parameters function

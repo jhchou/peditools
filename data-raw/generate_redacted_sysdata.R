@@ -43,6 +43,13 @@ lmsdata <- lmsdata %>%   arrange(chart, measure, gender, age)
 #   arrange(chart, measure, sex, age)
 
 ##### Generate chart metadata
+# - not best practice, but want to include all metadata, even if chart not available
+# - otherwise, would need to separately store metadata information elsewhere, with source LMS data
+# - kludgy, but could filter out any chart metadata that is NOT available after get_lmsdata() and add_lmsdata()
+lmsdata <- lmsdata %>% 
+  bind_rows(read.csv(file = 'data-raw/charts_long_fenton_2013.csv', stringsAsFactors = FALSE)) %>% 
+  unique()
+
 chart_metadata <- lmsdata %>% 
   group_by(chart, measure) %>%
   mutate(
