@@ -25,19 +25,30 @@ The following charts are available, with their corresponding measures.
 
 \tabular{lll}{
   \strong{chart} \tab \strong{age_units} \tab \strong{measures} \cr
-  abdel-rahman_2017 \tab months \tab arm_circ(cm)                                     \cr
-  addo_2010_skin    \tab years  \tab subscapular(mm), triceps(mm)                     \cr
-  cdc_2000_bmi      \tab months \tab bmi(kg/m2)                                       \cr
-  cdc_2000_infant   \tab months \tab head_circ(cm), length(cm), weight(kg)            \cr
-  cdc_2000_pedi     \tab months \tab height(cm), weight(kg)                           \cr
-  fenton_2003       \tab weeks  \tab head_circ(cm), length(cm), weight(kg)            \cr
-  mramba_2017       \tab months \tab arm_circ(cm)                                     \cr
-  olsen_2010        \tab weeks  \tab head_circ(cm), length(cm), weight(g)             \cr
-  olsen_2015_bmi    \tab weeks  \tab bmi(g/cm2)                                       \cr
-  who_2006_infant   \tab months \tab head_circ(cm), length(cm), weight(kg)            \cr
-  who_2007_skin_arm \tab months \tab arm_circ(cm), subscapular(mm), triceps(mm)       \cr
-  zemel_2015_infant \tab months \tab head_circ(cm), length(cm), weight(kg)            \cr
-  zemel_2015_pedi   \tab years  \tab bmi(kg/m2), head_circ(cm), height(cm), weight(kg)
+  abdel-rahman_2017     \tab months \tab arm_circ(cm)                                            \cr
+  addo_2010_skin        \tab years  \tab subscapular(mm), triceps(mm)                            \cr
+  brooks_gmfcs_1        \tab years  \tab bmi(kg/m2), height(cm), weight(kg)                      \cr
+  brooks_gmfcs_2        \tab years  \tab bmi(kg/m2), height(cm), weight(kg)                      \cr
+  brooks_gmfcs_3        \tab years  \tab bmi(kg/m2), height(cm), weight(kg)                      \cr
+  brooks_gmfcs_4        \tab years  \tab bmi(kg/m2), height(cm), weight(kg)                      \cr
+  brooks_gmfcs_5_nt     \tab years  \tab bmi(kg/m2), height(cm), weight(kg)                      \cr
+  brooks_gmfcs_5_tf     \tab years  \tab bmi(kg/m2), height(cm), weight(kg)                      \cr
+  cappa_2024            \tab years  \tab height_velocity(cm/year), height(cm), weight(kg)        \cr
+  cdc_2000_bmi          \tab months \tab bmi(kg/m2)                                              \cr
+  cdc_2000_infant       \tab months \tab head_circ(cm), length(cm), weight(kg)                   \cr
+  cdc_2000_pedi         \tab months \tab height(cm), weight(kg)                                  \cr
+  fenton_2003           \tab weeks  \tab head_circ(cm), length(cm), weight(kg)                   \cr
+  mramba_2017           \tab months \tab arm_circ(cm)                                            \cr
+  olsen_2010            \tab weeks  \tab head_circ(cm), length(cm), weight(g)                    \cr
+  olsen_2015_bmi        \tab weeks  \tab bmi(g/cm2)                                              \cr
+  who_2006_infant       \tab months \tab head_circ(cm), length(cm), weight(kg)                   \cr
+  who_2007_skin_arm     \tab months \tab arm_circ(cm), subscapular(mm), triceps(mm)              \cr
+  who_expanded          \tab days   \tab bmi(kg/m2), head_circ(cm), length_height(cm), weight(kg)\cr
+  who_expanded_arm_skin \tab days   \tab arm_circ(cm), subscapular(mm), triceps(mm)              \cr
+  who_wt_for_ht         \tab cm     \tab weight(kg)                                              \cr
+  who_wt_for_len        \tab cm     \tab weight(kg)                                              \cr
+  zemel_2015_infant     \tab months \tab head_circ(cm), length(cm), weight(kg)                   \cr
+  zemel_2015_pedi       \tab years  \tab bmi(kg/m2), head_circ(cm), height(cm), weight(kg)       
 }
 }
 \examples{

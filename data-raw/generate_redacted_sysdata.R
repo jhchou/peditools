@@ -46,15 +46,16 @@ lmsdata <- lmsdata %>%   arrange(chart, measure, gender, age)
 # - not best practice, but want to include all metadata, even if chart not available
 # - otherwise, would need to separately store metadata information elsewhere, with source LMS data
 # - kludgy, but could filter out any chart metadata that is NOT available after get_lmsdata() and add_lmsdata()
-lmsdata <- lmsdata %>% 
+lmsdata2 <- lmsdata %>% 
   bind_rows(read.csv(file = 'data-raw/charts_long_fenton_2013.csv', stringsAsFactors = FALSE)) %>% 
   unique()
 
-chart_metadata <- lmsdata %>% 
+chart_metadata <- lmsdata2 %>% 
   group_by(chart, measure) %>%
   mutate(
     age_min = min(age),
-    age_max = max(age)
+    age_max = max(age),
+    num_param = n()
   ) %>%
   ungroup() %>%
   transmute(
@@ -65,7 +66,8 @@ chart_metadata <- lmsdata %>%
     age_units,
     age_min,
     age_max,
-    age_range = paste0(round(age_min, 2), '-', round(age_max, 2))
+    age_range = paste0(round(age_min, 2), '-', round(age_max, 2)),
+    num_param
   ) %>% 
   unique() %>% 
   arrange(chart, measure) %>% 
@@ -97,8 +99,8 @@ chart_metadata <- lmsdata %>%
     )
   ) %>% 
   mutate(
-    url = str_extract(source, '(?<=href = ")[^"]+'), # Extract the URL
     text = str_extract(source, '(?<=\\>)[^<]+'),     # Extract the text inside the tag
+    url = str_extract(source, '(?<=href = ")[^"]+'), # Extract the URL
     notes = "" # placeholder for any future needs
   ) %>% 
   select(-source)
