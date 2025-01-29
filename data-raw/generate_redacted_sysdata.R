@@ -62,7 +62,21 @@ chart_metadata <- lmsdata2 %>%
     chart,
     measure,
     measure_units,
-    age_label = ifelse(chart == "who_wt_for_ht", "height", ifelse(chart == "who_wt_for_len", "length", "age")),
+    # age_label almost always "age", except when is "length" or "height"
+    # - "who_wt_for_ht"
+    # - "who_wt_for_len"
+    # - "cdc_2000_wt_for_len"
+    # - "cdc_2000_wt_for_ht"
+    # age_label = ifelse(chart == "who_wt_for_ht", "height", ifelse(chart == "who_wt_for_len", "length", "age")),
+    age_label = ifelse(
+      grepl("_for_len", chart, ignore.case = TRUE),
+      "length",   # chart name contains '_for_len'
+      ifelse(
+        grepl("_for_ht", chart, ignore.case = TRUE),
+        "height", # chart name contains '_for_ht'
+        "age"     # default
+      )
+    ),
     age_units,
     age_min,
     age_max,
@@ -80,6 +94,8 @@ chart_metadata <- lmsdata2 %>%
       chart == 'cdc_2000_bmi'        ~ '<a href = "http://www.cdc.gov/growthcharts/percentile_data_files.htm" target="_blank">CDC Growth Charts - Data Tables</a> and <a href = "https://www.cdc.gov/growthcharts/extended-bmi.htm" target="_blank">CDC 2022 Extended BMI-for-age</a>',
       chart == 'cdc_2000_infant'     ~ '<a href = "http://www.cdc.gov/growthcharts/percentile_data_files.htm" target="_blank">CDC Growth Charts - Data Tables</a>',
       chart == 'cdc_2000_pedi'       ~ '<a href = "http://www.cdc.gov/growthcharts/percentile_data_files.htm" target="_blank">CDC Growth Charts - Data Tables</a>',
+      chart == 'cdc_2000_wt_for_len' ~ '<a href = "http://www.cdc.gov/growthcharts/percentile_data_files.htm" target="_blank">CDC Growth Charts - Data Tables</a>',
+      chart == 'cdc_2000_wt_for_ht'  ~ '<a href = "http://www.cdc.gov/growthcharts/percentile_data_files.htm" target="_blank">CDC Growth Charts - Data Tables</a>',
       chart == 'fenton_2003'         ~ '<a href = "http://www.ncbi.nlm.nih.gov/pubmed/17299469" target="_blank">"Using the LMS method to calculate z-scores for the Fenton preterm infant growth chart." Fenton TR and Sauve RS, Eur J Clin Nutrition 2007, 61:1380</a>',
       chart == 'fenton_2013'         ~ '<a href = "http://www.ncbi.nlm.nih.gov/pubmed/23601190" target="_blank">"A systematic review and meta-analysis to revise the Fenton growth chart for preterm infants." Fenton TR and Kim JH, BMC Pediatrics 2013, 13:59</a> <a href = "http://www.biomedcentral.com/1471-2431/13/59" target="_blank">(BioMed Central)</a>',
       chart == 'mramba_2017'         ~ '<a href = "http://www.ncbi.nlm.nih.gov/pubmed/28774873" target="_blank">"A growth reference for mid upper arm circumference for age among school age children and adolescents, and validation for mortality: growth curve construction and longitudinal cohort study." Mramba et al, BMJ 2017; 358:j3423</a>',
