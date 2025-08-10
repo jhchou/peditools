@@ -112,6 +112,7 @@ chart_metadata <- lmsdata2 %>%
       # new link: https://www.who.int/publications/i/item/9789241547185
       chart == 'who_2007_skin_arm'   ~ '<a href = "https://www.who.int/publications/i/item/9789241547185" target="_blank">WHO Child Growth Standards -- Head circumference-for-age, arm circumference-for-age, triceps skinfold-for-age and subscapular skinfold-for-age: Methods and development</a>',
       grepl('who_', chart)           ~ '<a href = "https://www.who.int/tools/child-growth-standards" target="_blank">WHO Child Growth Standards</a>',
+      chart == "addo_2017"           ~ '<a href = "http://www.ncbi.nlm.nih.gov/pubmed/27806975" target="_blank">"Reference ranges for midupper arm circumference, upper arm muscle area, and upper arm fat area in US children and adolescents aged 1-20 y." Addo OY, Himes JH, and Zemel BS, Am J Clin Nutr 2017; 105:111-120</a>',
       TRUE ~ 'source information not available'
     )
   ) %>% 

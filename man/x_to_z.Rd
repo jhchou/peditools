@@ -27,6 +27,7 @@ The following charts are available, with their corresponding measures.
   \strong{chart} \tab \strong{age_units} \tab \strong{measures} \cr
   abdel-rahman_2017     \tab months \tab arm_circ(cm)                                            \cr
   addo_2010_skin        \tab years  \tab subscapular(mm), triceps(mm)                            \cr
+  addo_2017             \tab months \tab afa(cm2), ama(cm2), arm_circ(cm)                        \cr
   brooks_gmfcs_1        \tab years  \tab bmi(kg/m2), height(cm), weight(kg)                      \cr
   brooks_gmfcs_2        \tab years  \tab bmi(kg/m2), height(cm), weight(kg)                      \cr
   brooks_gmfcs_3        \tab years  \tab bmi(kg/m2), height(cm), weight(kg)                      \cr
@@ -37,6 +38,8 @@ The following charts are available, with their corresponding measures.
   cdc_2000_bmi          \tab months \tab bmi(kg/m2)                                              \cr
   cdc_2000_infant       \tab months \tab head_circ(cm), length(cm), weight(kg)                   \cr
   cdc_2000_pedi         \tab months \tab height(cm), weight(kg)                                  \cr
+  cdc_2000_wt_for_ht    \tab cm     \tab weight(kg)                                              \cr
+  cdc_2000_wt_for_len   \tab cm     \tab weight(kg)                                              \cr
   fenton_2003           \tab weeks  \tab head_circ(cm), length(cm), weight(kg)                   \cr
   mramba_2017           \tab months \tab arm_circ(cm)                                            \cr
   olsen_2010            \tab weeks  \tab head_circ(cm), length(cm), weight(g)                    \cr
