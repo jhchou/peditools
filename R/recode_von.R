@@ -8,15 +8,21 @@
 #' # recode_von()
 
 recode_von = function ( von ) {
-
+  # Updated for 2025 dictionary; some obsolete fields retained
+  #
+  # Not recoded: outb_ctr, xfer_ctr
+  #
+  # 7, 77, 777, 777.77, 77777 codes typically NA
+  # 9 codes typically Unknown
+  # However, would break numeric columns, so will just use NA.
+  # Can distinguish NA and Unknown for factor / text columns though
+  
     recode2 = function ( data, fields, recodes, as.factor = FALSE ) {
         for ( i in which(names(data) %in% fields) ) { # iterate over column indexes that are present in the passed dataframe that are also included in the fields list
             data[,i] <- car::recode( data[,i], recodes, as.factor = as.factor )
         }
         data
     }
-
-    # 7, 77, 777, 777.77, 77777 codes should generally be Unknown, not NA
 
     names(von) <- tolower(names(von))
 
@@ -30,7 +36,10 @@ recode_von = function ( von ) {
                                 "rds","pntx","pda","giperf","cnegstaph","fungal","pvl","eyex",
                                 "oxfinal","acfinal","ecmop","cooled","hypoiep","mecasp","trcsucma","seizure","nimv36",
                                 "congeninf","vitamina","hfvfinal","drlma","drnimv","acetamin","caffeine",
-                                "pdasurg","ventfinal","hfncfinal","nimvfinal","cpapfinal","xfer_out","mdiabetes"),
+                                "pdasurg","ventfinal","hfncfinal","nimvfinal","cpapfinal","xfer_out","mdiabetes",
+                                "srgssi1","srgssi2","srgssi3","srgssi4","srgssi5","srgssi6","srgssi7","srgssi8","srgssi9","srgssi10",
+                                "dischome","ncf", "ncf_gt_2l", "ncf36", "ncf36_gt_2l", "ncffinal", "ncffinal_gt_2l",
+                                "nas", "nastreat" ),
                     recodes = "0 = 'No'; 1 = 'Yes'; 7 = NA; 9 = NA", as.factor = TRUE )
 
     von <- recode2( data = von,
@@ -62,8 +71,8 @@ recode_von = function ( von ) {
                     recodes = "77777 = NA; 99999 = NA" )
 
     von <- recode2( data = von,
-                    fields = c( "transcode" ),
-                    recodes = "0='ECMO'; 1='Growth/ Discharge Planning'; 2='Medical/Diagnostic Services'; 3='Surgery'; 4='Chronic Care'; 5='Other'; 7=NA; 9=NA", as.factor = TRUE )
+                    fields = c( "transcode", "transcode_out", "transcode_in" ),
+                    recodes = "0='ECMO'; 1='Growth/ Discharge Planning'; 2='Medical/Diagnostic Services'; 3='Surgery'; 4='Chronic Care'; 5='Other'; 6='Hypothermic Therapy'; 7=NA; 9='Unknown'", as.factor = TRUE )
 
     von <- recode2( data = von,
                     fields = c( "fdisp" ),
@@ -95,12 +104,12 @@ recode_von = function ( von ) {
 
     von <- recode2( data = von,
                     fields = c( "matrace" ),
-                    recodes = "1='Black or African American'; 3='White'; 4='Asian'; 5='American Indian or Alaska Native'; 6='Native Hawaiian or Other Pacific Islander'; 7='Other Race'; 99='Unknown'", as.factor = TRUE )
+                    recodes = "1='Black or African American'; 3='White'; 4='Asian'; 5='American Indian or Alaska Native'; 6='Native Hawaiian or Other Pacific Islander'; 7='Other Race'; 77=NA; 99='Unknown'", as.factor = TRUE )
 
     von <- recode2( data = von,
-                    fields = c( "piewfo","inowg","sterbpdwg","ropsurgwd","srgligwd",
+                    fields = c( "pihwfo","inowg","sterbpdwg","ropsurgwd","srgligwd",
                                 "srgloc1","srgloc2","srgloc3","srgloc4","srgloc5","srgloc6","srgloc7","srgloc8","srgloc9","srgloc10",
-                                "pntxwo","necwo","giperfwo","lbpathwo","cnegwo","fungalwo"),
+                                "pntxwo","necwo","giperfwo","lbpathwo","cnegwo","fungalwo","nastreatwg"),
                     recodes = "1='Your Hospital'; 2='Other Hospital'; 3='Both Your Hospital and Other Hospital'; 7=NA; 9=NA", as.factor = TRUE )
 
     von <- recode2( data = von,
@@ -116,8 +125,58 @@ recode_von = function ( von ) {
                     recodes = "1='Selective Head'; 2='Whole Body'; 3='Both Selective Head and Whole Body'; 7=NA; 9=NA", as.factor = TRUE )
 
     von <- recode2( data = von,
-                    fields = c( "hypoies" ),
+                    fields = c( "hypoies", "coollevel" ),
                     recodes = "1='Mild'; 2='Moderate'; 3='Severe'; 7=NA; 9=NA", as.factor = TRUE )
+    
+    von <- recode2( data = von,
+                    fields = c( "sip" ),
+                    recodes = "1='Surgically Confirmed'; 2='Clinically Diagnosed'; 0=NA; 7=NA; 9=NA", as.factor = TRUE ) # 0 shouldn't exist but does
+    
+    von <- recode2( data = von,
+                    fields = c("congeninfcd1", "congeninfcd2", "congeninfcd3"),
+                    recodes = "101='Toxoplasmosis (Toxoplasma gondii)'; 102='Rubella virus'; 103='Syphilis (Treponema pallidum)'; 104='Cytomegalovirus'; 105='Herpes simplex'; 106='Parvovirus B19'; 107='Zika virus'; 108='Varicella zoster virus'; 7777=NA; 9999=NA",
+                    as.factor = TRUE)
+    
+    von <- recode2( data = von,
+                     fields = c("ebsepscd1","ebsepscd2","ebsepscd3","lbpathcd1","lbpathcd2","lbpathcd3"),
+                     recodes = paste0(
+                       "7777=NA;9999=NA;",
+                       "101='Achromobacter species [including A. xylosoxidans (also known as Alcaligenes xylosoxidans) and others]';",
+                       "102='Acinetobacter species including multidrug-resistant Acinetobacter';",
+                       "103='Aeromonas species';",
+                       "104='Alcaligenes species [A. xylosoxidans and others]';",
+                       "201='Bacteroides species';",
+                       "202='Burkholderia species [B. capecia and others]';",
+                       "301='Campylobacter species [C. fetus, C. jejuni and others] including drug-resistant Campylobacter';",
+                       "302='Chryseobacterium species';",
+                       "303='Citrobacter species [C. diversus, C. freundii, C. koseri and others]';",
+                       "304='Clostridium species';",
+                       "501='Enterobacter species [E. aerogenes, E. cloacae, and others] including Carbapenem-resistant Enterobacter';",
+                       "502='Enterococcus species [E. faecalis (also known as Streptococcus faecalis), E. faecium, and others] including Vancomycin-resistant Enterococcus';",
+                       "503='Escherichia coli including Carbapenem-resistant Escherichia coli';",
+                       "601='Flavobacterium species';",
+                       "801='Haemophilus species [H. influenzae and others]';",
+                       "1101='Klebsiella species [K. oxytoca, K. pneumoniae and others] including Carbapenem-resistant Klebsiella and Cephalosporin-resistant Klebsiella';",
+                       "1201='Listeria monocytogenes';",
+                       "1301='Moraxella species [M. catarrhalis (also known as Branhamella catarrhalis) and others]';",
+                       "1302='Morganella morganii';",
+                       "1401='Neisseria species [N. meningitidis, N. gonorrhoeae and others] including drug- resistant N. gonorrhoeae';",
+                       "1601='Pantoea';",
+                       "1602='Pasteurella species';",
+                       "1603='Prevotella species';",
+                       "1604='Proteus species [P. mirabilis, P. vulgaris and others]';",
+                       "1605='Providencia species [P. rettgeri and others]';",
+                       "1606='Pseudomonas species [P. aeruginosa and others] including multidrug-resistant Pseudomonas aeruginosa';",
+                       "1801='Ralstonia species';",
+                       "1901='Salmonella species including drug-resistant Salmonella serotype Typhi';",
+                       "1902='Serratia species [S. liquefaciens, S. marcescens and others]';",
+                       "1903='Staphylococcus coagulase positive [aureus] including Methicillin-resistant Staphylococcus aureus and Vancomycin-resistant Staphylococcus aureus';",
+                       "1904='Stenotrophomonas maltophilia';",
+                       "1905='Group B Streptococcus or GBS [also known as Streptococcus agalactiae]';",
+                       "1906='Streptococcus anginosus [formerly Streptococcus milleri]';",
+                       "1907='Streptococcus pneumoniae';",
+                       "1908='Streptococcus pyogenes [Group A Streptococcus]';"),
+                     as.factor = TRUE)
 
     von <- recode2( data = von,
                     fields = c( "srgcd1","srgcd2","srgcd3","srgcd4","srgcd5","srgcd6","srgcd7","srgcd8","srgcd9","srgcd10" ),
@@ -162,6 +221,7 @@ recode_von = function ( von ) {
                         "609='Thanatophoric Dysplasia Types 1 and 2'; 610='Hemoglobin Barts'; 701='Congenital Cystic Adenomatoid Malformation of the Lung'; 907='Other lethal or life threatening pulmonary malformation';",
                         "100='Other lethal or life threatening birth defects'"),
                         as.factor = TRUE )
+    
 
     if ( 'dob' %in% names(von) ) {
         von$dob <- as.Date( von$dob, format = '%m/%d/%Y' )
