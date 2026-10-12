@@ -19,7 +19,7 @@ lmsdata <- read.csv(file = 'data-raw/charts_long.csv', stringsAsFactors = FALSE)
 #### Optionally include restricted files
 if (include_restricted) {
   lmsdata <- lmsdata %>% 
-    bind_rows(read.csv(file = 'data-raw/charts_long_fenton_2013_2025.csv', stringsAsFactors = FALSE))
+    bind_rows(read.csv(file = 'data-raw/gitignore_raw_data/charts_long_fenton_2013_2025.csv', stringsAsFactors = FALSE))
 }
 
 ##### Redact problematic charts
@@ -47,7 +47,7 @@ lmsdata <- lmsdata %>%   arrange(chart, measure, gender, age)
 # - otherwise, would need to separately store metadata information elsewhere, with source LMS data
 # - kludgy, but could filter out any chart metadata that is NOT available after get_lmsdata() and add_lmsdata()
 lmsdata2 <- lmsdata %>% 
-  bind_rows(read.csv(file = 'data-raw/charts_long_fenton_2013_2025.csv', stringsAsFactors = FALSE)) %>% 
+  bind_rows(read.csv(file = 'data-raw/gitignore_raw_data/charts_long_fenton_2013_2025.csv', stringsAsFactors = FALSE)) %>% 
   unique()
 
 chart_metadata <- lmsdata2 %>% 
@@ -104,6 +104,7 @@ chart_metadata <- lmsdata2 %>%
       chart == 'olsen_2015_bmi'      ~ '<a href = "http://www.ncbi.nlm.nih.gov/pubmed/25687149" target="_blank">"BMI curves for preterm infants." Olsen IE et al, Pediatrics 2015, 135:e572</a>',
       chart == 'who_2006_infant'     ~ '<a href = "http://www.cdc.gov/growthcharts/who_charts.htm" target="_blank">WHO Growth Standard - Data Tables</a>',
       chart == 'zemel_2015_infant'   ~ '<a href = "http://www.ncbi.nlm.nih.gov/pubmed/26504127/" target="_blank">"Growth Charts for Children With Down Syndrome in the United States." Zemel BS et al, Pediatrics 2015, 136:e1204</a>',
+      chart == 'zemel_2015_wt_for_len' ~ '<a href = "http://www.ncbi.nlm.nih.gov/pubmed/26504127/" target="_blank">"Growth Charts for Children With Down Syndrome in the United States." Zemel BS et al, Pediatrics 2015, 136:e1204</a>',
       chart == 'zemel_2015_pedi'     ~ '<a href = "http://www.ncbi.nlm.nih.gov/pubmed/26504127/" target="_blank">"Growth Charts for Children With Down Syndrome in the United States." Zemel BS et al, Pediatrics 2015, 136:e1204</a>',
       grepl('brooks_gmfcs', chart)   ~ '<a href = "https://pubmed.ncbi.nlm.nih.gov/21768315/" target="_blank">"Low weight, morbidity, and mortality in children with cerebral palsy: new clinical growth charts." Brooks J et al, Pediatrics 2011, 128:e299</a> <a href = "https://www.lifeexpectancy.org/articles/GrowthCharts.shtml" target="_blank">(additional info)</a>',
       grepl('who_wt_for_ht', chart)  ~ '<a href = "https://www.who.int/tools/child-growth-standards" target="_blank">WHO Child Growth Standards. Weight for height, so "age" should be "height"</a>',
